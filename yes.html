@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Accepted 💖</title>
+    <title>Love Galaxy 💖</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
 
@@ -24,10 +24,8 @@
             position: relative;
             z-index: 5;
         }
-.compliments-container {
-    z-index: 9999 !important; /* Щоб текст точно був над фоном */
-}
-        p {
+
+        .instruction {
             text-align: center;
             max-width: 500px;
             margin: 12px auto 40px;
@@ -35,6 +33,7 @@
             z-index: 5;
         }
 
+        /* Сердечка при кліку */
         .heart {
             font-size: 3rem;
             position: absolute;
@@ -84,18 +83,20 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Екран з компліментами */
         .compliments-section {
             position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at center, #000014, #120458);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #000014;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            overflow: hidden;
             opacity: 0;
             pointer-events: none;
             transition: opacity 1s ease;
-            z-index: 100;
+            z-index: 1000;
+            overflow: hidden;
         }
 
         .compliments-section.active {
@@ -103,95 +104,84 @@
             pointer-events: auto;
         }
 
-        .perspective-wrapper {
-            perspective: 400px;
+        /* Ефект Star Wars */
+        .star-wars-viewport {
+            perspective: 300px;
             width: 100%;
             height: 100%;
             display: flex;
             justify-content: center;
         }
 
-        .compliments-container {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.8rem;
-            color: #ffeb9b;
-            text-align: center;
-            line-height: 2.5;
-            width: 95%; 
-            max-width: 1200px; 
-            padding: 0 10px;
-            transform: rotateX(20deg); 
-            will-change: transform;
-        }
-
         .scroll-content {
-            position: absolute;
-            width: 100%;
-            bottom: 0;
-            /* Набагато повільніше — 150 секунд */
-            animation: scrollCredits 10s linear infinite;
+            position: relative;
+            width: 95%;
+            max-width: 1200px;
+            text-align: center;
+            color: #ffeb9b;
+            font-size: 2rem;
+            font-weight: bold;
+            line-height: 2.5;
+            transform: rotateX(25deg);
+            will-change: transform;
+            backface-visibility: hidden;
         }
 
-        @keyframes scrollCredits {
-            0% { transform: translateY(100%); }
-            100% { transform: translateY(-130%); }
+        /* Клас для запуску анімації */
+        .animate-now {
+            animation: movieRun 40s linear forwards;
+        }
+
+        @keyframes movieRun {
+            0% { transform: rotateX(25deg) translateY(100vh); }
+            100% { transform: rotateX(25deg) translateY(-400%); }
         }
 
         .close-btn {
             position: absolute;
             bottom: 30px;
-            padding: 12px 35px;
+            padding: 15px 40px;
             border: none;
             border-radius: 50px;
             background: #ffb347;
             color: #120458;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
+            z-index: 2000;
             font-size: 1rem;
-            z-index: 110;
-        }
-
-        .close-btn:hover {
-            transform: scale(1.1);
-            background: #ffcc66;
         }
 
         .fade-top {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 30%;
-            background: linear-gradient(to bottom, rgba(0,0,20,1), transparent);
-            z-index: 105;
+            top: 0; left: 0;
+            width: 100%; height: 25%;
+            background: linear-gradient(to bottom, #000014, transparent);
+            z-index: 1500;
             pointer-events: none;
         }
     </style>
 </head>
 <body>
 
-    <audio id="starWarsMusic" loop>
+    <audio id="starWarsMusic" loop preload="auto">
         <source src="star_wars_the_last_jedi_01 Main Title and Escape.mp3" type="audio/mpeg">
     </audio>
 
     <div class="score" id="score">Сердечок: 0</div>
 
     <h1>🌌 Наші серця в одній галактиці 💖</h1>
-    <p>Клікай на екран, щоб ловити сердечка 💖</p>
+    <p class="instruction">Клікай на екран, щоб ловити сердечка 💖</p>
 
     <div class="tenor-wrapper">
-        <img src="cat-hyppy.gif" alt="Happy Cat" style="max-width: 400px; width: 100%;">
+        <img src="cat-hyppy.gif" alt="Happy Cat" style="max-width: 350px; width: 100%;">
     </div>
 
     <div class="planet" id="planetPortal" title="Торкнись мене 🌍"></div>
 
     <div class="compliments-section" id="complimentsSection">
         <div class="fade-top"></div>
-        <div class="perspective-wrapper">
-            <div class="compliments-container">
-                <div class="scroll-content" id="complimentsContainer"></div>
-            </div>
+        <div class="star-wars-viewport">
+            <div class="scroll-content" id="complimentsContainer"></div>
         </div>
         <button class="close-btn" id="closeBtn">Повернутися</button>
     </div>
@@ -200,28 +190,12 @@
     let score = 0;
     const scoreEl = document.getElementById('score');
     const music = document.getElementById('starWarsMusic');
-
-    document.body.addEventListener('click', e => {
-        if(e.target.closest('.close-btn') || e.target.closest('.planet')) return;
-
-        const heart = document.createElement('div');
-        heart.className = 'heart';
-        heart.textContent = '💖';
-        heart.style.left = (e.clientX - 25) + 'px';
-        heart.style.top = (e.clientY - 25) + 'px';
-        document.body.appendChild(heart);
-
-        score++;
-        scoreEl.textContent = 'Сердечок: ' + score;
-
-        setTimeout(() => heart.remove(), 3000);
-    });
-
     const planet = document.getElementById('planetPortal');
     const section = document.getElementById('complimentsSection');
     const container = document.getElementById('complimentsContainer');
     const closeBtn = document.getElementById('closeBtn');
-const compliments = [
+
+    const compliments = [
         "Твоя аура світліша за будь-яку зірку у Всесвіті ✨",
         "Ти як комета – з’являєшся і освітлюєш мій день 💫",
         "Якби планети могли співати, вони б співали про тебе 🌠",
@@ -242,63 +216,81 @@ const compliments = [
         "Якби Всесвіт мав голос, він співав би про тебе 🎵",
         "Ти – справжня космічна легенда, яку варто вивчати 🔭",
         "З тобою поруч будь-який космос стає теплим і домашнім 🌌",
-        "Ти — центр мого всесвіту, навколо якого обертаються мої мрії 🛰️",
+        "Ти — центр мого всесвіту, навколо якого обертаються мрії 🛰️",
         "Твоя доброта нескінченна, як сам простір ☄️",
         "Ти — найпрекрасніша аномалія в моєму системному порядку 🛸",
-        "Твоя душа глибша за найнайвіддаленішу галактику 🪐",
-        "Ти сяєш так яскраво, що навіть Сонце одягає окуляри 😎☀️",
+        "Твоя душа глибша за віддалену галактику 🪐",
+        "Ти сяєш так яскраво, що Сонце одягає окуляри 😎☀️",
         "Ти мій персональний Чумацький Шлях до щастя 🥛🌌",
         "Твій інтелект гостріший за лазерний меч джедая ⚔️",
         "Ти — причина, чому я вірю в космічну долю ♾️",
-        "Твоя ніжність м'якша за космічний пил золотих туманностей ✨",
-        "Ти — найрідкісніший елемент у періодичній таблиці Всесвіту 💎",
-        "Навіть інопланетяни прилетіли б сюди лише щоб побачити тебе 👽❤️",
-        "Ти змушуєш моє серце битися швидше за світловий рік 🏎️🌠",
-        "Ти — моя ідеальна стихія серед холодного вакууму 🌬️",
-        "Твій спокій затишніший за тишу місячної ночі 🌙",
-        "Ти — шедевр, створений зірковим пилом мільярди років тому 🎨",
+        "Твоя ніжність м'якша за золотий зірковий пил ✨",
+        "Навіть інопланетяни прилетіли б сюди заради тебе 👽❤️",
+        "Твоє серце б'ється швидше за швидкість світла 🏎️🌠",
+        "Ти — ідеальна стихія серед вакууму 🌬️",
+        "Твій спокій затишніший за місячну ніч 🌙",
+        "Ти — шедевр, створений зірковим пилом 🎨",
         "Кожен твій погляд — це нова відкрита планета 🌏",
-        "Ти — сонячний вітер, що приносить тепло в мою галактику 🌬️☀️",
-        "Твоя присутність робить реальність космічно прекрасною 🦄",
-        "Ти — нескінченність, яку я хочу досліджувати вічно ♾️💖",
-        "У всій мультивсесвіті немає нікого, хто міг би тебе замінити ⚛️"
+        "Ти — сонячний вітер, що приносить тепло 🌬️☀️",
+        "Твоя присутність робить реальність прекрасною 🦄",
+        "Ти — нескінченність, яку я хочу досліджувати ♾️💖",
+        "У всій мультивсесвіті немає нікого кращого ⚛️"
     ];
 
-    function fillCompliments() {
-        container.innerHTML = "";
-        const shuffled = [...compliments].sort(() => 0.5 - Math.random());
-        shuffled.forEach(text => {
-            const div = document.createElement('div');
-            div.textContent = text;
-            div.style.marginBottom = "80px"; 
-            container.appendChild(div);
-        });
-    }
+    document.body.addEventListener('click', e => {
+        if(e.target.closest('.close-btn') || e.target.closest('.planet')) return;
+
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.textContent = '💖';
+        heart.style.left = (e.clientX - 25) + 'px';
+        heart.style.top = (e.clientY - 25) + 'px';
+        document.body.appendChild(heart);
+
+        score++;
+        scoreEl.textContent = 'Сердечок: ' + score;
+        setTimeout(() => heart.remove(), 3000);
+    });
 
     planet.addEventListener('click', (e) => {
         e.stopPropagation();
-        fillCompliments();
+        
+        // Рандомізація тексту
+        container.innerHTML = "";
+        const shuffled = [...compliments].sort(() => 0.5 - Math.random());
+        shuffled.forEach(text => {
+            const p = document.createElement('p');
+            p.textContent = text;
+            p.style.marginBottom = "90px";
+            container.appendChild(p);
+        });
+
         section.classList.add('active');
         
-        // Запуск музики
-        music.currentTime = 0; // Починати спочатку
-        music.play().catch(error => console.log("Автоплей заблоковано браузером, але клік по планеті має це дозволити."));
+        // Скидання та запуск анімації
+        container.classList.remove('animate-now');
+        void container.offsetWidth; 
+        container.classList.add('animate-now');
+
+        // Музика
+        music.volume = 1.0;
+        music.currentTime = 0;
+        music.play().catch(err => console.log("Music click required"));
     });
 
     closeBtn.addEventListener('click', () => {
         section.classList.remove('active');
-        // Плавне затихання музики при закритті
-        const fadeOut = setInterval(() => {
-            if (music.volume > 0.1) {
-                music.volume -= 0.1;
-            } else {
+        container.classList.remove('animate-now');
+        
+        // Плавне затихання музики
+        const fade = setInterval(() => {
+            if (music.volume > 0.1) music.volume -= 0.1;
+            else {
                 music.pause();
-                music.volume = 1.0;
-                clearInterval(fadeOut);
+                clearInterval(fade);
             }
         }, 50);
     });
 </script>
-
 </body>
 </html>
