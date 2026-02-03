@@ -278,19 +278,16 @@
         music.play().catch(err => console.log("Music click required"));
     });
 
-    closeBtn.addEventListener('click', () => {
-        section.classList.remove('active');
-        container.classList.remove('animate-now');
-        
-        // Плавне затихання музики
-        const fade = setInterval(() => {
-            if (music.volume > 0.1) music.volume -= 0.1;
-            else {
-                music.pause();
-                clearInterval(fade);
-            }
-        }, 50);
-    });
+       
+closeBtn.addEventListener('click', () => {
+   
+    section.classList.remove('active');
+    
+    container.classList.remove('animate-now');
+    
+    music.pause();
+    music.currentTime = 0; 
+});
 </script>
 </body>
 </html>
