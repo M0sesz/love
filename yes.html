@@ -1,224 +1,301 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Love Accepted 💖</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Accepted 💖</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
 
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
-body {
-    margin: 0;
-    min-height: 100vh;
-    background: radial-gradient(circle at top, #2b1055, #000);
-    color: white;
-    font-family: "Space Grotesk", sans-serif;
-    overflow: hidden;
-    cursor: default; 
-}
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top, #2b1055, #000);
+            color: white;
+            font-family: "Space Grotesk", sans-serif;
+            overflow: hidden;
+            cursor: default;
+        }
 
-h1 {
-    font-size: 2.6rem;
-    text-align: center;
-    margin-top: 20px;
-}
+        h1 {
+            font-size: 2.6rem;
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+            z-index: 5;
+        }
 
-p {
-    text-align: center;
-    max-width: 500px;
-    margin: 12px auto 40px;
-}
+        p {
+            text-align: center;
+            max-width: 500px;
+            margin: 12px auto 40px;
+            position: relative;
+            z-index: 5;
+        }
 
-.heart {
-    font-size: 3rem;
-    position: absolute;
-    user-select: none;
-    pointer-events: none;
-    animation: float 3s ease-out forwards;
-}
+        .heart {
+            font-size: 3rem;
+            position: absolute;
+            user-select: none;
+            pointer-events: none;
+            animation: float 3s ease-out forwards;
+            z-index: 10;
+        }
 
-@keyframes float {
-    0% { opacity: 1; transform: translateY(0) scale(1); }
-    100% { opacity: 0; transform: translateY(-250px) scale(1.5); }
-}
+        @keyframes float {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-250px) scale(1.5); }
+        }
 
-.score {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 1.2rem;
-}
-.tenor-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    z-index: -1;
-    position: relative;
-}
-.planet {
-    position: absolute;
-    bottom: -3%;
-    right: 10%;
-    width: 100px;
-    height: 100px;
-    background: radial-gradient(circle at 30% 30%, #ffb347, #ffcc66);
-    border-radius: 50%;
-    box-shadow: 0 0 20px #ffb347, 0 0 40px #ffcc66;
-    cursor: pointer;
-    animation: rotatePlanet 10s linear infinite;
-}
+        .score {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.2rem;
+            z-index: 5;
+        }
 
-@keyframes rotatePlanet {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+        .tenor-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
 
-.compliments-section {
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle at center, #000014, #120458);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 1s ease;
-}
+        .planet {
+            position: absolute;
+            bottom: 5%;
+            right: 10%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at 30% 30%, #ffb347, #ffcc66);
+            border-radius: 50%;
+            box-shadow: 0 0 20px #ffb347, 0 0 40px #ffcc66;
+            cursor: pointer;
+            animation: rotatePlanet 10s linear infinite;
+            z-index: 5;
+        }
 
-.compliments-section.active {
-    opacity: 1;
-    pointer-events: auto;
-}
+        @keyframes rotatePlanet {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-.compliments-container {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.4rem;
-    color: #ffeb9b;
-    text-align: center;
-    transform-origin: 50% 100%;
-    animation: scrollCredits 60s linear infinite; 
-    line-height: 2.2;
-    max-width: 800px;
-    padding: 0 20px;
-}
+        .compliments-section {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, #000014, #120458);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+            z-index: 100;
+        }
 
-@keyframes scrollCredits {
-    0% { transform: rotateX(25deg) translateY(50%); } 
-    100% { transform: rotateX(25deg) translateY(-150%); }
-}
+        .compliments-section.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
 
+        .perspective-wrapper {
+            perspective: 400px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+        }
 
-.close-btn {
-    position: absolute;
-    bottom: 20px;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 50px;
-    background: #ffb347;
-    color: #120458;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-    font-size: 1rem;
-}
-.close-btn:hover {
-    transform: scale(1.1);
-}
-</style>
+        .compliments-container {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.8rem;
+            color: #ffeb9b;
+            text-align: center;
+            line-height: 2.5;
+            width: 95%; 
+            max-width: 1200px; 
+            padding: 0 10px;
+            transform: rotateX(20deg); 
+            will-change: transform;
+        }
+
+        .scroll-content {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            /* Набагато повільніше — 150 секунд */
+            animation: scrollCredits 150s linear infinite;
+        }
+
+        @keyframes scrollCredits {
+            0% { transform: translateY(100%); }
+            100% { transform: translateY(-130%); }
+        }
+
+        .close-btn {
+            position: absolute;
+            bottom: 30px;
+            padding: 12px 35px;
+            border: none;
+            border-radius: 50px;
+            background: #ffb347;
+            color: #120458;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1rem;
+            z-index: 110;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.1);
+            background: #ffcc66;
+        }
+
+        .fade-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(to bottom, rgba(0,0,20,1), transparent);
+            z-index: 105;
+            pointer-events: none;
+        }
+    </style>
 </head>
-
 <body>
 
-<h1>🌌 Наші серця в одній галактиці 💖</h1>
+    <audio id="starWarsMusic" loop>
+        <source src="star_wars_the_last_jedi_01 Main Title and Escape.mp3" type="audio/mpeg">
+    </audio>
 
-<p>Клікай на екран, щоб ловити сердечка 💖</p>
+    <div class="score" id="score">Сердечок: 0</div>
 
-<div class="tenor-wrapper">
-    <img src="cat-hyppy.gif" alt="" style="max-width: 400px; width: 100%;">
-</div>
+    <h1>🌌 Наші серця в одній галактиці 💖</h1>
+    <p>Клікай на екран, щоб ловити сердечка 💖</p>
 
-<div class="score" id="score">Сердечок: 0</div>
+    <div class="tenor-wrapper">
+        <img src="cat-hyppy.gif" alt="Happy Cat" style="max-width: 400px; width: 100%;">
+    </div>
 
-<div class="planet" id="planetPortal" title="Торкнись мене 🌍"></div>
+    <div class="planet" id="planetPortal" title="Торкнись мене 🌍"></div>
 
-<!-- Секція компліментів -->
-<div class="compliments-section" id="complimentsSection">
-    <div class="compliments-container" id="complimentsContainer"></div>
-    <button class="close-btn" id="closeBtn">Повернутися</button>
-</div>
+    <div class="compliments-section" id="complimentsSection">
+        <div class="fade-top"></div>
+        <div class="perspective-wrapper">
+            <div class="compliments-container">
+                <div class="scroll-content" id="complimentsContainer"></div>
+            </div>
+        </div>
+        <button class="close-btn" id="closeBtn">Повернутися</button>
+    </div>
 
 <script>
-let score = 0;
-const scoreEl = document.getElementById('score');
+    let score = 0;
+    const scoreEl = document.getElementById('score');
+    const music = document.getElementById('starWarsMusic');
 
-document.body.addEventListener('click', e => {
-    if(e.target.closest('.tenor-wrapper') || e.target.closest('.planet')) return;
+    document.body.addEventListener('click', e => {
+        if(e.target.closest('.close-btn') || e.target.closest('.planet')) return;
 
-    const heart = document.createElement('div');
-    heart.className = 'heart';
-    heart.textContent = '💖';
-    heart.style.left = e.clientX - 20 + 'px';
-    heart.style.top = e.clientY - 20 + 'px';
-    document.body.appendChild(heart);
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.textContent = '💖';
+        heart.style.left = (e.clientX - 25) + 'px';
+        heart.style.top = (e.clientY - 25) + 'px';
+        document.body.appendChild(heart);
 
-    score++;
-    scoreEl.textContent = 'Сердечок: ' + score;
+        score++;
+        scoreEl.textContent = 'Сердечок: ' + score;
 
-    setTimeout(()=>heart.remove(), 3000);
-});
-
-const planet = document.getElementById('planetPortal');
-const section = document.getElementById('complimentsSection');
-const container = document.getElementById('complimentsContainer');
-const closeBtn = document.getElementById('closeBtn');
-
-const compliments = [
-    "Твоя аура світліша за будь-яку зірку у Всесвіті ✨",
-    "Ти як комета – з’являєшся і освітлюєш мій день 💫",
-    "Якби планети могли співати, вони б співали про тебе 🌠",
-    "Твій сміх – як магніт для всіх зірок у галактиці 🌌",
-    "Ти краща за будь-який метеоритний дощ 🌟",
-    "Твоя енергія могла б живити цілий космос 🚀",
-    "Навіть чорні діри заздрять глибині твоєї чарівності 🕳️✨",
-    "Твій погляд – як телескоп, що відкриває Всесвіт 🔭",
-    "Якби планети танцювали, вони танцювали б під твій ритм 💃🪐",
-    "Твоє серце світить яскравіше за будь-яку супернову 🌟",
-    "Ти немов гігантська туманність – красива та загадкова 🌌",
-    "Твій голос нагадує мелодію космічної орбіти 🎶",
-    "Ти магніт для моїх думок, як гравітація для зірок 🪐",
-    "Твоя посмішка розсіює темряву глибокого космосу ✨",
-    "Твоя енергія яскравіша за будь-яку супернову 💥",
-    "Навіть планети змінюють орбіти, щоб бути поруч з тобою 🌍",
-    "Твої очі – це два далекі квазари, що світять крізь час 🌠",
-    "Якби Всесвіт мав голос, він співав би про тебе 🎵",
-    "Ти – справжня космічна легенда, яку варто вивчати 🔭",
-    "З тобою поруч будь-який космос стає теплим і домашнім 🌌"
-];
-
-function updateCompliments() {
-    container.innerHTML = "";
-    const shuffled = compliments.sort(() => 0.5 - Math.random());
-    shuffled.forEach(c => {
-        const div = document.createElement('div');
-        div.textContent = c;
-        div.style.margin = "20px 0"; 
-        container.appendChild(div);
+        setTimeout(() => heart.remove(), 3000);
     });
-}
 
-planet.addEventListener('click', () => {
-    updateCompliments();
-    section.classList.add('active');
-});
+    const planet = document.getElementById('planetPortal');
+    const section = document.getElementById('complimentsSection');
+    const container = document.getElementById('complimentsContainer');
+    const closeBtn = document.getElementById('closeBtn');
+const compliments = [
+        "Твоя аура світліша за будь-яку зірку у Всесвіті ✨",
+        "Ти як комета – з’являєшся і освітлюєш мій день 💫",
+        "Якби планети могли співати, вони б співали про тебе 🌠",
+        "Твій сміх – як магніт для всіх зірок у галактиці 🌌",
+        "Ти краща за будь-який метеоритний дощ 🌟",
+        "Твоя енергія могла б живити цілий космос 🚀",
+        "Навіть чорні діри заздрять глибині твоєї чарівності 🕳️✨",
+        "Твій погляд – як телескоп, що відкриває Всесвіт 🔭",
+        "Якби планети танцювали, вони танцювали б під твій ритм 💃🪐",
+        "Твоє серце світить яскравіше за будь-яку супернову 🌟",
+        "Ти немов гігантська туманність – красива та загадкова 🌌",
+        "Твій голос нагадує мелодію космічної орбіти 🎶",
+        "Ти магніт для моїх думок, як гравітація для зірок 🪐",
+        "Твоя посмішка розсіює темряву глибокого космосу ✨",
+        "Твоя енергія яскравіша за будь-яку супернову 💥",
+        "Навіть планети змінюють орбіти, щоб бути поруч з тобою 🌍",
+        "Твої очі – це два далекі квазари, що світять крізь час 🌠",
+        "Якби Всесвіт мав голос, він співав би про тебе 🎵",
+        "Ти – справжня космічна легенда, яку варто вивчати 🔭",
+        "З тобою поруч будь-який космос стає теплим і домашнім 🌌",
+        "Ти — центр мого всесвіту, навколо якого обертаються мої мрії 🛰️",
+        "Твоя доброта нескінченна, як сам простір ☄️",
+        "Ти — найпрекрасніша аномалія в моєму системному порядку 🛸",
+        "Твоя душа глибша за найнайвіддаленішу галактику 🪐",
+        "Ти сяєш так яскраво, що навіть Сонце одягає окуляри 😎☀️",
+        "Ти мій персональний Чумацький Шлях до щастя 🥛🌌",
+        "Твій інтелект гостріший за лазерний меч джедая ⚔️",
+        "Ти — причина, чому я вірю в космічну долю ♾️",
+        "Твоя ніжність м'якша за космічний пил золотих туманностей ✨",
+        "Ти — найрідкісніший елемент у періодичній таблиці Всесвіту 💎",
+        "Навіть інопланетяни прилетіли б сюди лише щоб побачити тебе 👽❤️",
+        "Ти змушуєш моє серце битися швидше за світловий рік 🏎️🌠",
+        "Ти — моя ідеальна стихія серед холодного вакууму 🌬️",
+        "Твій спокій затишніший за тишу місячної ночі 🌙",
+        "Ти — шедевр, створений зірковим пилом мільярди років тому 🎨",
+        "Кожен твій погляд — це нова відкрита планета 🌏",
+        "Ти — сонячний вітер, що приносить тепло в мою галактику 🌬️☀️",
+        "Твоя присутність робить реальність космічно прекрасною 🦄",
+        "Ти — нескінченність, яку я хочу досліджувати вічно ♾️💖",
+        "У всій мультивсесвіті немає нікого, хто міг би тебе замінити ⚛️"
+    ];
 
-closeBtn.addEventListener('click', () => {
-    section.classList.remove('active');
-});
+    function fillCompliments() {
+        container.innerHTML = "";
+        const shuffled = [...compliments].sort(() => 0.5 - Math.random());
+        shuffled.forEach(text => {
+            const div = document.createElement('div');
+            div.textContent = text;
+            div.style.marginBottom = "80px"; 
+            container.appendChild(div);
+        });
+    }
 
-setInterval(() => {
-    if(section.classList.contains('active')) updateCompliments();
-}, 3000);
+    planet.addEventListener('click', (e) => {
+        e.stopPropagation();
+        fillCompliments();
+        section.classList.add('active');
+        
+        // Запуск музики
+        music.currentTime = 0; // Починати спочатку
+        music.play().catch(error => console.log("Автоплей заблоковано браузером, але клік по планеті має це дозволити."));
+    });
+
+    closeBtn.addEventListener('click', () => {
+        section.classList.remove('active');
+        // Плавне затихання музики при закритті
+        const fadeOut = setInterval(() => {
+            if (music.volume > 0.1) {
+                music.volume -= 0.1;
+            } else {
+                music.pause();
+                music.volume = 1.0;
+                clearInterval(fadeOut);
+            }
+        }, 50);
+    });
 </script>
 
 </body>
